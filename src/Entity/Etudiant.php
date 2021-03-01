@@ -45,10 +45,10 @@ class Etudiant
     private $notes;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Promotion::class, inversedBy="etudiants")
+     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="etudiants")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $promotion;
+    private $classe;
 
     public function __construct()
     {
@@ -138,15 +138,16 @@ class Etudiant
         return $this;
     }
 
-    public function getPromotion(): ?Promotion
+    public function getClasse(): ?Classe
     {
-        return $this->promotion;
+        return $this->classe;
     }
 
-    public function setPromotion(?Promotion $promotion): self
+    public function setClasse(?Classe $classe): self
     {
-        $this->promotion = $promotion;
+        $this->classe = $classe;
 
         return $this;
     }
+
 }

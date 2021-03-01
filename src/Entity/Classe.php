@@ -35,14 +35,16 @@ class Classe
     private $matieres;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Promotion::class, inversedBy="classes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=Etudiant::class, mappedBy="classe")
      */
-    private $promotion;
+    private $etudiants;
+
+
 
     public function __construct()
     {
         $this->matieres = new ArrayCollection();
+        $this->etudiants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,15 +100,34 @@ class Classe
         return $this;
     }
 
-    public function getPromotion(): ?Promotion
+    /**
+     * @return Collection|Etudiant[]
+     */
+    public function getEtudiants(): Collection
     {
-        return $this->promotion;
+        return $this->etudiants;
     }
 
-    public function setPromotion(?Promotion $promotion): self
+    public function addEtudiant(Etudiant $etudiant): self
     {
-        $this->promotion = $promotion;
+        if (!$this->etudiants->contains($etudiant)) {
+            $this->etudiants[] = $etudiant;
+            $etudiant->setClasse($this);
+        }
 
         return $this;
     }
+
+    public function removeEtudiant(Etudiant $etudiant): self
+    {
+        if ($this->etudiants->removeElement($etudiant)) {
+            // set the owning side to null (unless already changed)
+            if ($etudiant->getClasse() === $this) {
+                $etudiant->setClasse(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
