@@ -1,6 +1,6 @@
 #API PHP
 
-À l'IIM, karine, Nicolas et Alexis veulent pouvoir gérer le pole de L'IIM via une api en Symphony.
+À l'IIM, karine, Nicolas et Alexis veulent pouvoir gérer le pole de L'IIM via une api en Symfony.
 
 ##Cas d'utilisation
 
