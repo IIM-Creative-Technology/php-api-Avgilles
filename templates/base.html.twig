@@ -6,14 +6,32 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
+            <style>
+                td {
+                    border: 1px solid;
+                    padding: 4px;
+                }
+                .center{
+                    text-align: center;
+                }
+                table{
+                    margin: auto;
+                }
+                .mt-2{
+                    margin-top: 2em;
+                }
+            </style>
             {#{{ encore_entry_link_tags('app') }}#}
         {% endblock %}
 
         {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+            <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div id="app">
+            {% block body %}{% endblock %}
+        </div>
+        {% block inline_js %}{% endblock %}
     </body>
 </html>

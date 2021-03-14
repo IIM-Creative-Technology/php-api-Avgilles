@@ -1,0 +1,249 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+
+    {% include "_MENU.html.twig" %}
+
+    {% verbatim %}
+    <div v-if="etatVoletActif==this.ETAT_VOLET_ACTIF_HOMEPAGE" class="center">
+        <h1>Bienvenu</h1>
+        <h2>Pour acceder a l'interface admin veillez vous connecter</h2>
+
+                <a href="login">Connexion</a>
+
+    </div>
+
+
+    <div v-if="etatVoletActif==this.ETAT_VOLET_ACTIF_MATIERES"  class="center">
+        <h1>Liste des matières</h1>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Date debut</th>
+                        <th>Date fin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="matiere in matieres">
+                        <td>{{ matiere.id }}</td>
+                        <td>{{ matiere.nom }}</td>
+                        <td>{{ matiere.dateDebut }}</td>
+                        <td>{{ matiere.dateFin }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div v-if="etatVoletActif==this.ETAT_VOLET_ACTIF_INTERVENANTS"  class="center">
+        <h1>Liste des intervenants</h1>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Annee Arrivée</th>
+                </tr>
+                </thead>
+                <tbody>
+                     <tr v-for="intervenant in intervenants">
+                        <td>{{ intervenant.id }}</td>
+                        <td>{{ intervenant.nom }}</td>
+                        <td>{{ intervenant.prenom }}</td>
+                        <td>{{ intervenant.anneeArrivee }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div v-if="etatVoletActif==this.ETAT_VOLET_ACTIF_ETUDIANTS"  class="center">
+        <h1>Liste des étudiants</h1>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Age</th>
+                    <th>Année d'arrivée</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="etudiant in etudiants">
+                        <td>{{ etudiant.id }}</td>
+                        <td>{{ etudiant.nom }}</td>
+                        <td>{{ etudiant.prenom }}</td>
+                        <td>{{ etudiant.age }}</td>
+                        <td>{{ etudiant.anneeArrivee }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div v-if="etatVoletActif==this.ETAT_VOLET_ACTIF_CLASSES"  class="center">
+        <h1>Liste des classes</h1>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Année</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="classe in classes">
+                        <td>{{ classe.id }}</td>
+                        <td>{{ classe.nom }}</td>
+                        <td>{{ classe.annee }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div v-if="etatVoletActif==this.ETAT_VOLET_ACTIF_NOTES"  class="center">
+        <form class="mt-2">
+            Ajouter une note:
+            <label>Etudiant</label>
+            <select v-model="noteActuelle.etudiantId">
+                <option v-for="etudiant in etudiants" v-bind:value="etudiant.id">
+                    {{ etudiant.nom }} {{ etudiant.prenom }}
+                </option>
+            </select>
+            <label>Matière</label>
+            <select v-model="noteActuelle.matiereId">
+                <option v-for="matiere in matieres" v-bind:value="matiere.id">
+                    {{ matiere.nom }}
+                </option>
+            </select>
+            <label>Résultat</label>
+            <input v-model="noteActuelle.resultat">
+            <input @click="clicAjouterNote()" type="button" value="Enregistrer">
+        </form>
+        <h1>Liste des notes</h1>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Résultat</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                    <tr v-for="note in notes">
+                        <td>{{ note.id }}</td>
+                        <td>{{ note.nom }}</td>
+                        <td>{{ note.prenom }}</td>
+                        <td>{{ note.resultat }}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}
+
+{% block inline_js %}
+    <script>
+
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                ETAT_VOLET_ACTIF_HOMEPAGE:'HOMEPAGE',
+                ETAT_VOLET_ACTIF_ETUDIANTS:'ETUDIANTS',
+                ETAT_VOLET_ACTIF_NOTES:'NOTES',
+                ETAT_VOLET_ACTIF_CLASSES:'CLASSES',
+                ETAT_VOLET_ACTIF_INTERVENANTS:'INTERVENANTS',
+                ETAT_VOLET_ACTIF_MATIERES:'MATIERES',
+                ETAT_VOLET_ACTIF_UTILISATEURS:'UTILISATEURS',
+                homepage: [],
+                etudiants: [],
+                notes: [],
+                classes: [],
+                intervenants: [],
+                matieres: [],
+                utilisateurs: [],
+                etatVoletActif: 'HOMEPAGE',
+                noteActuelle: {}
+            },
+            methods: {
+                clicAjouterNote: function(){
+                    // Ajoute la note
+                    var url = new URL('http://127.0.0.1:8000/ajax-note-ajouter');
+                    url.search = new URLSearchParams( this.noteActuelle );
+
+                    fetch( url );
+                },
+                clicMenuIntervenants: function(){
+                    this.etatVoletActif=this.ETAT_VOLET_ACTIF_INTERVENANTS;
+                    this.listerIntervenant();
+                },
+                clicMenuMatieres: function(){
+                    this.etatVoletActif=this.ETAT_VOLET_ACTIF_MATIERES;
+                    this.listerMatieres();
+                },
+                clicMenuEtudiants: function(){
+                    this.etatVoletActif=this.ETAT_VOLET_ACTIF_ETUDIANTS;
+                    this.listerEtudiants();
+                },
+                clicMenuClasses: function(){
+                    this.etatVoletActif=this.ETAT_VOLET_ACTIF_CLASSES;
+                    this.listerClasses();
+                },
+                clicMenuNotes: function(){
+                    this.etatVoletActif=this.ETAT_VOLET_ACTIF_NOTES;
+                    this.listerNotes();
+                    this.listerEtudiants();
+                    this.listerMatieres();
+                },
+                listerMatieres: async function(){
+                    let url = '{{ path('ajax-matiere-lister') }}';
+
+                    let resp = await fetch(url);
+                    this.matieres = await resp.json();
+                },
+                listerEtudiants: async function(){
+                    let url = '{{ path('ajax-etudiant-lister') }}';
+
+                    let resp = await fetch(url);
+                    this.etudiants = await resp.json();
+                },
+                listerClasses: async function(){
+                    let url = '{{ path('ajax-classe-lister') }}';
+
+                    let resp = await fetch(url);
+                    this.classes = await resp.json();
+                },
+                listerNotes: async function(){
+                    let url = '{{ path('ajax-note-lister') }}';
+
+                    let resp = await fetch(url);
+                    this.notes = await resp.json();
+                },
+                listerIntervenant: async function(){
+                    let url = '{{ path('ajax-intervenant-lister') }}';
+
+                    let resp = await fetch(url);
+                    this.intervenants = await resp.json();
+                }
+            }
+        });
+
+    </script>
+{% endblock %}

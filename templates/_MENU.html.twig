@@ -1,0 +1,12 @@
+<nav {#v-if="etatVoletActif!=ETAT_VOLET_ACTIF_HOMEPAGE"#}>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a @click="clicMenuClasses()" href="#">Classes</a>
+        <a @click="clicMenuEtudiants()" href="#">Etudiants</a>
+        <a @click="clicMenuMatieres()" href="#">Matières</a>
+        <a @click="clicMenuIntervenants()" href="#">Intervenants</a>
+        <a @click="clicMenuNotes()" href="#">Ajouter une note</a>
+        <a href="logout">Déconnexion</a>
+    {% else %}
+        <a href="login">Connexion</a>
+    {% endif %}
+</nav>
