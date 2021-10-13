@@ -1,8 +1,8 @@
-#API PHP
+# API PHP
 
 À l'IIM, karine, Nicolas et Alexis veulent pouvoir gérer le pole de L'IIM via une api en Symfony.
 
-##Cas d'utilisation
+## Cas d'utilisation
 
 ![CasUtilisation](_DOCUMENTS/casUtilisation.png)
 
@@ -34,6 +34,6 @@ Si cela vous intéresse vous pouver l'utiliser sur ce lien :  [http://127.0.0.1:
 [Demonstration vidéo](https://youtu.be/glp8J8ErrNs)
 
 
-#####PS:  
+##### PS:  
 J'ai utilisé le sytème natif d'authentification de symfony à la place de JWT.
 
